@@ -13,11 +13,17 @@ use App\Http\Resources\DriverResource;
 class BookingController extends Controller
 {
     public function book(Request $request){
+
+        //Validate required inputs
         $this->validate($request, [
-            'where_from' => 'required',
-            'where_to' => 'required',
+            'where_from_lat' => 'required',
+            'where_from_long' => 'required',
+            'where_to_lat' => 'required',
+            'where_to_long' => 'required',
         ]);
 
+
+        //Initiallize geotools
         $geotools = new Geotools();
         $coordA   = new Coordinate([9.05785, 7.49508]);
         $coordB   = new Coordinate([9.0776387, 7.4737235]);
@@ -27,11 +33,10 @@ class BookingController extends Controller
 
         $tuta_small = 15;
 
-       $km = $distance->in('km')->haversine();
-       $data['km'] = $km;
+        $km = $distance->in('km')->haversine();
+        $data['km'] = $km;
 
-        $data['where_from'] = trim($request->where_from);
-        $data['where_to'] = trim($request->where_to);
+    
         $data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
         $data['price'] = $tuta_small * $km + $base_fare;
 

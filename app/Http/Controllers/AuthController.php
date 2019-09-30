@@ -24,24 +24,31 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        //Validate User inputs
         $this->validate($request, [
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
- 
+        
+        //Create new user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
- 
+        
+        //Create access token
         $token = $user->createToken('tuta-app')->accessToken;
- 
+        
+        //Send Access Token
         return response()->json(['token' => $token], 200);
     }
 
     public function registerDriver(DriverRequest $request)
     {
+        //Validate Driver inputs
+
+        //Create New Driver
         $driver = Driver::create([
             'name' => $request->name,
             'email' => $request->email,
