@@ -4,14 +4,17 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Driver::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'phone' => $faker->phoneNumber,
         'email' => $faker->safeEmail,
-        'password' => bcrypt($faker->password),
+        'phone_verified_at' => $faker->dateTime(),
         'email_verified_at' => $faker->dateTime(),
+        'password' => bcrypt($faker->password),
+        'is_verfied' => $faker->boolean,
+        'is_online' => $faker->boolean,
+        'is_available' => $faker->boolean,
         'remember_token' => Str::random(10),
-        'settings' => $faker->word,
     ];
 });
