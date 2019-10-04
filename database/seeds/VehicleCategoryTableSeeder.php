@@ -11,6 +11,6 @@ class VehicleCategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory('App\VehicleCategory', 10)->create();
     }
 }
