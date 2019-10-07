@@ -17,9 +17,11 @@ class CreateTripsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('driver_id')->nullable();
-            $table->string('from');
-            $table->string('to');
-            $table->float('price');
+            $table->string('src_lat');
+            $table->string('src_long');
+            $table->string('dest_lat');
+            $table->string('dest_long');
+            $table->float('fare');
             $table->timestamp('start')->nullable();
             $table->timestamp('end')->nullable();
             $table->timestamps();

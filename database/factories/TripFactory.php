@@ -12,8 +12,10 @@ $factory->define(App\Trip::class, function (Faker $faker) {
         'driver_id' => function () {
             return factory(App\Driver::class)->create()->id;
         },
-        'from' => $faker->word,
-        'to' => $faker->word,
+        'src_lat' => 9.0422796,
+        'src_long' => 7.4998734,
+        'dest_lat' => 9.0804156,
+        'dest_long' => 7.4499857,
         'price' => 23.6,
         'start' => $faker->dateTime(),
         'end' => $faker->dateTime(),
