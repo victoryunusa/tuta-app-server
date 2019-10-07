@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\DriverRequest;
-
-use App\User;
-use App\Driver;
-
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
 use Illuminate\Support\Facades\Hash;
 
+
+use App\User;
+use App\Driver;
 
 class AuthController extends Controller
 {
