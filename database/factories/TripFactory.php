@@ -16,7 +16,7 @@ $factory->define(App\Trip::class, function (Faker $faker) {
         'src_long' => 7.4998734,
         'dest_lat' => 9.0804156,
         'dest_long' => 7.4499857,
-        'price' => 23.6,
+        'fare' => 23.6,
         'start' => $faker->dateTime(),
         'end' => $faker->dateTime(),
     ];

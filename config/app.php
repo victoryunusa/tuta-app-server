@@ -167,7 +167,7 @@ return [
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Toin0u\Geotools\GeotoolsServiceProvider::class,
+        //Obiefy\API\APIServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -230,7 +230,7 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class, 
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Geotools' => 'Toin0u\Geotools\GeotoolsFacade',
+        //'API' => Obiefy\API\Facades\API::class,
     ],
 
 ];
