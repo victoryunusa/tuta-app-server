@@ -68,9 +68,9 @@ class BookingController extends Controller
         $tuta_max = 35;
 
         //Calculate price by price type and distance
-        $price_small  = $tuta_small * $km + $base_fare;
-        $price_mid  = $tuta_mid * $km + $base_fare;
-        $price_max  = $tuta_max * $km + $base_fare;
+        $price_small  = ceil($tuta_small * $km + $base_fare);
+        $price_mid  = ceil($tuta_mid * $km + $base_fare);
+        $price_max  = ceil($tuta_max * $km + $base_fare);
 
         return ['price_small' => $price_small,
                 'price_mid' => $price_mid,
@@ -81,5 +81,9 @@ class BookingController extends Controller
     public function coordinate($coordinates, Ellipsoid $ellipsoid = null)
     {
         return new Coordinate($coordinates, $ellipsoid);
+    }
+
+    public function statusToggle(){
+        
     }
 }

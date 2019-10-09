@@ -16,7 +16,7 @@ class Driver extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone',
+        'name', 'email', 'password', 'phone', 'is_online',
     ];
 
     protected $hidden = [
