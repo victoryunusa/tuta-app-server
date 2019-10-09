@@ -16,34 +16,35 @@ class BookingController extends Controller
 
         //Validate required inputs
         $this->validate($request, [
-            'where_from_lat' => 'required',
-            'where_from_long' => 'required',
-            'where_to_lat' => 'required',
-            'where_to_long' => 'required',
+            'src_lat' => 'required',
+            'src_long' => 'required',
+            'dest_lat' => 'required',
+            'dest_long' => 'required',
         ]);
 
-        $where_from_lat = $request->input('where_from_lat');
-        $where_from_long = $request->input('where_from_long');
-        $where_to_lat = $request->input('where_to_lat');
-        $where_to_long = $request->input('where_to_long');
+        $src_lat = $request->input('src_lat');
+        $src_long = $request->input('src_long');
+        $dest_lat = $request->input('dest_lat');
+        $dest_long = $request->input('dest_long');
 
 
         //Initiallize geotools
         $geotools = new Geotools();
-        $coordA   = new Coordinate([$where_from_lat, $where_from_long]);
-        $coordB   = new Coordinate([$where_to_lat, $where_to_long]);
+        $coordA   = new Coordinate([$src_lat, $src_long]);
+        $coordB   = new Coordinate([$dest_lat, $dest_long]);
         $distance = $geotools->distance()->setFrom($coordA)->setTo($coordB);
 
-        $base_fare = 50;
-
-        $tuta_small = 15;
-
+        //Get distance in km
         $km = $distance->in('km')->haversine();
         $data['km'] = $km;
+        
+        //Send the coordinates back
+        $data['coordinates'] = ['src_lat' => $src_lat, 'src_long' => $src_long, 'dest_lat' => $dest_lat, 'dest_long' => $dest_long];
 
-    
-        $data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
-        $data['price'] = $tuta_small * $km + $base_fare;
+        //$data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
+
+        //Calculate the price from distance(km)
+        $data['price'] = $this->calculatePrice($km);
 
 
         return response()->json($data,  200);
@@ -59,9 +60,22 @@ class BookingController extends Controller
         CoreAPi::partner()->findInVicinity($lat, $long, $radius);
     }
 
-    public function calculatePrice(){
+    public function calculatePrice($km){
+        //Set base fare and price range
+        $base_fare = 50;
+        $tuta_small = 15;
+        $tuta_mid = 20;
+        $tuta_max = 35;
 
-        
+        //Calculate price by price type and distance
+        $price_small  = $tuta_small * $km + $base_fare;
+        $price_mid  = $tuta_mid * $km + $base_fare;
+        $price_max  = $tuta_max * $km + $base_fare;
+
+        return ['price_small' => $price_small,
+                'price_mid' => $price_mid,
+                'price_max' => $price_max
+                ];
     }
 
     public function coordinate($coordinates, Ellipsoid $ellipsoid = null)

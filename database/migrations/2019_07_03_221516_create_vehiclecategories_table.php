@@ -13,7 +13,7 @@ class CreateVehiclecategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('vehiclecategories', function (Blueprint $table) {
+        Schema::create('vehicle_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('category');
             $table->integer('status')->default(0);
@@ -28,6 +28,6 @@ class CreateVehiclecategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vehiclecategories');
+        Schema::dropIfExists('vehicle_categories');
     }
 }

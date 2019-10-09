@@ -11,7 +11,7 @@ $factory->define(App\Driver::class, function (Faker $faker) {
         'email' => $faker->safeEmail,
         'phone_verified_at' => $faker->dateTime(),
         'email_verified_at' => $faker->dateTime(),
-        'password' => bcrypt($faker->password),
+        'password' => bcrypt('123456'),
         'is_verfied' => $faker->boolean,
         'is_online' => $faker->boolean,
         'is_available' => $faker->boolean,
