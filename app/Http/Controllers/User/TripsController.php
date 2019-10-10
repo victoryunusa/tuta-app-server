@@ -10,6 +10,7 @@ use League\Geotools\Geotools as Geotools;
 
 use App\Trip;
 use App\User;
+use App\Driver;
 
 class TripsController extends Controller
 {
@@ -65,8 +66,12 @@ class TripsController extends Controller
         $lat = $request->lat;
         $long = $request->long;
         $radius = 25;
+
+        $data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
         # code...
-        CoreAPi::partner()->findInVicinity($lat, $long, $radius);
+        //$data['driver'] = CoreAPi::partner()->findInVicinity($lat, $long, $radius);
+
+        return response()->json($data,  200);
     }
 
     public function calculatePrice($km){
