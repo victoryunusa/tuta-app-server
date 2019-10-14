@@ -1,17 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use League\Geotools\Coordinate\Ellipsoid;
 use League\Geotools\Coordinate\Coordinate as Coordinate;
 use League\Geotools\Geotools as Geotools;
 
+use App\Trip;
+use App\User;
 use App\Driver;
-use App\Http\Resources\DriverResource;
 
-class BookingController extends Controller
+class TripsController extends Controller
 {
+    public function index($id){
+        
+        $data['trips'] = User::with('trips')->where('id', $id)->get();
+
+
+        return response()->json($data,  200);
+    }
+
     public function book(Request $request){
 
         //Validate required inputs
@@ -56,8 +66,12 @@ class BookingController extends Controller
         $lat = $request->lat;
         $long = $request->long;
         $radius = 25;
+
+        $data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
         # code...
-        CoreAPi::partner()->findInVicinity($lat, $long, $radius);
+        //$data['driver'] = CoreAPi::partner()->findInVicinity($lat, $long, $radius);
+
+        return response()->json($data,  200);
     }
 
     public function calculatePrice($km){
@@ -81,9 +95,5 @@ class BookingController extends Controller
     public function coordinate($coordinates, Ellipsoid $ellipsoid = null)
     {
         return new Coordinate($coordinates, $ellipsoid);
-    }
-
-    public function statusToggle(){
-        
     }
 }

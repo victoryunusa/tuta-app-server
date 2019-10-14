@@ -13,10 +13,7 @@ class DriverController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth:drivers');
-    }
+    
 
     /**
      * Display a listing of the resource.
