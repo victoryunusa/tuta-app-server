@@ -23,7 +23,7 @@ class CreateVehiclesTable extends Migration
             $table->boolean('is_verfied')->default(false);
             $table->integer('status')->default(0);
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('vehiclecategories');
+            $table->foreign('category_id')->references('id')->on('vehicle_categories');
             $table->timestamps();
         });
     }

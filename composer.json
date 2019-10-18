@@ -15,7 +15,6 @@
         "laravel/passport": "^7.3",
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
-        "obiefy/api-response": "^0.2.5",
         "salmanzafar/laravel-crud-generator": "^1.0",
         "toin0u/geotools-laravel": "~1.0",
         "tutatechnologies/tuta-core-api-library": "dev-master",
