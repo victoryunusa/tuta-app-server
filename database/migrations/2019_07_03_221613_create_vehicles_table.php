@@ -18,9 +18,11 @@ class CreateVehiclesTable extends Migration
             $table->unsignedBigInteger('driver_id');
             $table->unsignedBigInteger('category_id');
             $table->string('name')->nullable();
+            $table->string('number')->nullable();
             $table->string('type')->nullable();
             $table->string('capacity')->nullable();
             $table->boolean('is_verfied')->default(false);
+            $table->integer('on_trip')->default(0);
             $table->integer('status')->default(0);
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('vehicle_categories');

@@ -11,7 +11,14 @@ use App\VehicleCategory;
 class VehicleController extends Controller
 {
     public function addVehicle(Request $request){
+
+        try{
+            $vehicle = Vehicle::create($request->all());
+
+            return response(['data' => $vehicle ], 201);
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
         
     }
-
 }
