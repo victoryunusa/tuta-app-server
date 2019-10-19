@@ -13,9 +13,11 @@ $factory->define(App\Vehicle::class, function (Faker $faker) {
             return factory(App\VehicleCategory::class)->create()->id;
         },
         'name' => $faker->name,
+        'number' => '123-DUB-SA',
         'type' => $faker->word,
         'capacity' => $faker->word,
         'is_verfied' => $faker->boolean,
-        'status' => $faker->randomNumber(),
+        'on_trip' => 0,
+        'status' => 0,
     ];
 });

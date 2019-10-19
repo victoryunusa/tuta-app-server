@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('vehiclecategories', 'VehicleCategoryController'); 
         Route::apiResource('vehicles', 'VehicleController'); 
         Route::apiResource('trips', 'TripController');
+        Route::post('new/vehicle', 'Driver\VehicleController@addVehicle');
     });
 
     Route::middleware(['auth:users'])->group(function () {
