@@ -63,8 +63,22 @@ class TripsController extends Controller
 
     public function requestDriver(Request $request)
     {
-        $lat = $request->lat;
-        $long = $request->long;
+        $src_lat = $request->src_lat;
+        $src_long = $request->src_long;
+        $dest_lat = $request->dest_lat;
+        $dest_long = $request->dest_long;
+        $user_id = $request->user_id;
+        $fare = $request->fare;
+
+        $data['trip'] = Driver::create([
+            'src_lat' => $src_lat,
+            'src_long' => $src_long,
+            'dest_lat' => $dest_lat,
+            'dest_long' => $dest_long,
+            'user_id' => $user_id,
+            'fare' => (float)$fare
+        ]);
+
         $radius = 25;
 
         $data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();

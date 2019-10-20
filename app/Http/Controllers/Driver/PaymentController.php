@@ -7,5 +7,7 @@ use App\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
-    //
+    public function wallet(){
+        
+    }
 }
