@@ -18,4 +18,8 @@ class TripsController extends Controller
     public function endTrip(){
         
     }
+
+    public function listTrips(){
+        
+    }
 }
