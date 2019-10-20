@@ -70,7 +70,7 @@ class TripsController extends Controller
         $user_id = $request->user_id;
         $fare = $request->fare;
 
-        $data['trip'] = Driver::create([
+        $data['trip'] = Trip::create([
             'src_lat' => $src_lat,
             'src_long' => $src_long,
             'dest_lat' => $dest_lat,
@@ -78,6 +78,25 @@ class TripsController extends Controller
             'user_id' => $user_id,
             'fare' => (float)$fare
         ]);
+
+        //Initiallize geotools
+        $geotools = new Geotools();
+        $coordA   = new Coordinate([$src_lat, $src_long]);
+        $coordB   = new Coordinate([$dest_lat, $dest_long]);
+        $distance = $geotools->distance()->setFrom($coordA)->setTo($coordB);
+
+        //Get distance in km
+        $km = $distance->in('km')->haversine();
+
+        $time = '00:11:40';
+
+        list($h,$m,$s) = explode(':',$time);
+
+        $nbSec = $h * 3600 + $m * 60 + $s;
+        $totalDuration = $nbSec * $km;
+
+        $data['eta'] = $this->nbSecToString($totalDuration);
+
 
         $radius = 25;
 
@@ -109,5 +128,15 @@ class TripsController extends Controller
     public function coordinate($coordinates, Ellipsoid $ellipsoid = null)
     {
         return new Coordinate($coordinates, $ellipsoid);
+    }
+
+    public function nbSecToString($nbSec) {
+
+        $tmp = $nbSec % 3600;
+        $h = str_pad(($nbSec - $tmp ) / 3600, 2, "0", STR_PAD_LEFT); 
+        $s = str_pad($tmp % 60, 2, "0", STR_PAD_LEFT);
+        $m = str_pad(( $tmp - $s ) / 60, 2, "0", STR_PAD_LEFT);
+    
+        return "$h:$m:$s";
     }
 }
