@@ -48,7 +48,7 @@ Route::prefix('v1')->group(function(){
         Route::post('trip/request', 'User\TripsController@requestDriver');
 
         //
-        Route::get('users/{id}/trips', 'User\TripsController@index');
+        Route::get('user/{id}/trips', 'User\TripsController@index');
 
     });
 
