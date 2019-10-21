@@ -45,44 +45,15 @@ class TripsController extends Controller
         $waypoint0 = (float)$src_lat.','.(float)$src_long;
         $waypoint1 = (float)$dest_lat.','.(float)$dest_long;
 
+        $result = $this->getDistance($waypoint0, $waypoint1);
+
         
-
-        $app_id = config('hereapp.app_id');
-        $app_code = config('hereapp.app_code');
-
-        $uri = 'https://route.api.here.com/routing/7.2/calculateroute.json';
-
-        $client = new Client(); //GuzzleHttp\Client
-        $result = $client->request('GET', $uri, [
-            'query' => [
-                'waypoint0' => $waypoint0,
-                'waypoint1' => $waypoint1,
-                'mode' => 'fastest;car;traffic:enabled',
-                'app_id' => $app_id,
-                'app_code' => $app_code,
-                'departure' => 'now'
-            ]
-        ]);
 
         $body = json_decode($result->getBody()->getContents(), true);
 
         $route = $body['response']['route'][0]['summary'];
         $distance = $route['distance']/1000;
         $eta = ceil($route['trafficTime']/60);
-        
-
-
-        //Initiallize geotools
-        // $geotools = new Geotools();
-        // $coordA   = new Coordinate([$src_lat, $src_long]);
-        // $coordB   = new Coordinate([$dest_lat, $dest_long]);
-        // $distance = $geotools->distance()->setFrom($coordA)->setTo($coordB);
-
-        //Get distance in km
-        //$km = $distance->in('km')->haversine();
-        //$data['km'] = $km;
-
-        
         
         //Send the coordinates back
         $data['coordinates'] = ['src_lat' => $src_lat, 'src_long' => $src_long, 'dest_lat' => $dest_lat, 'dest_long' => $dest_long];
@@ -125,15 +96,6 @@ class TripsController extends Controller
         //Get distance in km
         $km = $distance->in('km')->haversine();
 
-        $time = '00:11:40';
-
-        list($h,$m,$s) = explode(':',$time);
-
-        $nbSec = $h * 3600 + $m * 60 + $s;
-        $totalDuration = $nbSec * $km;
-
-        $data['eta'] = $this->nbSecToString($totalDuration);
-
 
         $radius = 25;
 
@@ -168,15 +130,26 @@ class TripsController extends Controller
         return new Coordinate($coordinates, $ellipsoid);
     }
 
-    public function nbSecToString($nbSec) {
+    public function getDistance($waypoint0, $waypoint1){
+        $app_id = config('hereapp.app_id');
+        $app_code = config('hereapp.app_code');
 
-        $tmp = $nbSec % 3600;
-        $h = str_pad(($nbSec - $tmp ) / 3600, 2, "0", STR_PAD_LEFT); 
-        $s = str_pad($tmp % 60, 2, "0", STR_PAD_LEFT);
-        $m = str_pad(( $tmp - $s ) / 60, 2, "0", STR_PAD_LEFT);
-    
-        return "$h:$m:$s";
+        $uri = 'https://route.api.here.com/routing/7.2/calculateroute.json';
+
+        $client = new Client(); //GuzzleHttp\Client
+        $result = $client->request('GET', $uri, [
+            'query' => [
+                'waypoint0' => $waypoint0,
+                'waypoint1' => $waypoint1,
+                'mode' => 'fastest;car;traffic:enabled',
+                'app_id' => $app_id,
+                'app_code' => $app_code,
+                'departure' => 'now'
+            ]
+        ]);
+
+        return $result;
     }
-
+    
 
 }
