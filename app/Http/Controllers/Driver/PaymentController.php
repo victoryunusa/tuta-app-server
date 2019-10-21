@@ -10,4 +10,8 @@ class PaymentController extends Controller
     public function wallet(){
         
     }
+
+    public function withdraw(){
+        
+    }
 }
