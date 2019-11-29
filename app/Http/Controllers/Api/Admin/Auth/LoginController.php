@@ -39,19 +39,24 @@ class LoginController extends Controller
         }
                 // user = JWTAuth::toUser($token);
 //                 $user = Auth::user();
-        $driver = Driver::whereIn('id', [Auth::user()]);
+        $driver =  Auth::user();
+        $driver->is_online = 1;
+        $driver->save();
         
-        $driver->update(['is_online' => 1]);
-      return response()->json(['token' => $token, 'data' => Auth::user()], 200);
+       // $driver->is_online = 1;
+       // $driver->save();
+      return response()->json(['token' => $token, 'data' => $driver], 200);
     }
 
     public function logout(Request $request) {
-        $driver = Driver::whereIn('id', [Auth::user()]);
+        $token = JWTAuth::getToken();
+        $driver = Driver::where('id', $request->id)->firstOrFail();
         
-        $driver->update(['is_online' => 0]);
+        $driver->is_online = 0;
+        $driver->save();
         //Auth::guard("driver")->logout();
 
-        JWTAuth::invalidate(JWTAuth::getToken());
-        return response()->json(['info' => "Logged out"], 200);
+        JWTAuth::invalidate($token);
+        return response()->json(['info' => "Logged out", 'data' => $driver], 200);
     }
 }

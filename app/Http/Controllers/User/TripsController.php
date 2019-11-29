@@ -84,7 +84,7 @@ class TripsController extends Controller
             'dest_lat' => $dest_lat,
             'dest_long' => $dest_long,
             'user_id' => $user_id,
-            'fare' => (float)$fare
+            'fare' => (double)$fare
         ]);
 
         //Initiallize geotools
@@ -119,10 +119,11 @@ class TripsController extends Controller
         $price_mid  = ceil(($tuta_mid * $km)+ ($time*7) + $base_fare);
         $price_max  = ceil(($tuta_max * $km)+ ($time*10) + $base_fare);
 
-        return ['price_small' => $price_small,
+        return [
+                'price_small' => $price_small,
                 'price_mid' => $price_mid,
-                'price_max' => $price_max
-                ];
+                'price_max' => $price_max 
+            ];
     }
 
     public function coordinate($coordinates, Ellipsoid $ellipsoid = null)

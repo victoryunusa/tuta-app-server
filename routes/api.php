@@ -35,10 +35,10 @@ Route::prefix('v1')->group(function(){
 
     Route::middleware(['auth:drivers'])->group(function () {
 
-        Route::apiResource('drivers', 'DriverController');
-        Route::apiResource('vehiclecategories', 'VehicleCategoryController'); 
-        Route::apiResource('vehicles', 'VehicleController'); 
-        Route::apiResource('trips', 'TripController');
+        // Route::apiResource('drivers', 'DriverController');
+        // Route::apiResource('vehiclecategories', 'VehicleCategoryController'); 
+        // Route::apiResource('vehicles', 'VehicleController'); 
+        // Route::apiResource('trips', 'TripController');
         Route::post('new/vehicle', 'Driver\VehicleController@addVehicle');
     });
 
