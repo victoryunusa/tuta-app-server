@@ -27,7 +27,7 @@ class TripsController extends Controller
         return response()->json($data,  200);
     }
 
-    public function book(Request $request){
+    public function getPriceEstimates(Request $request){
 
         //Validate required inputs
         $this->validate($request, [
@@ -78,6 +78,8 @@ class TripsController extends Controller
         $user_id = $request->user_id;
         $fare = $request->fare;
 
+
+        //Save trip to the database
         $data['trip'] = Trip::create([
             'src_lat' => $src_lat,
             'src_long' => $src_long,
@@ -99,7 +101,7 @@ class TripsController extends Controller
 
         $radius = 25;
 
-        $data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
+        //$data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
         # code...
         //$data['driver'] = CoreAPi::partner()->findInVicinity($lat, $long, $radius);
 

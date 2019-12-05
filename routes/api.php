@@ -44,7 +44,7 @@ Route::prefix('v1')->group(function(){
 
     Route::middleware(['auth:users'])->group(function () {
         //Booking Route
-        Route::post('trip/book', 'User\TripsController@book');
+        Route::post('trip/book', 'User\TripsController@getPriceEstimates');
         Route::post('trip/request', 'User\TripsController@requestDriver');
 
         //
