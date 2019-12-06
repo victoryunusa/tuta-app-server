@@ -62,7 +62,7 @@ class TripsController extends Controller
 
         //Calculate the price from distance(km)
         $data['price'] = $this->calculatePrice($distance, $eta);
-        $data['eta'] = date('H:i', strtotime("+$eta minutes"));
+        $data['eta'] = $eta;
 
 
         return response()->json($data,  200);
@@ -80,7 +80,7 @@ class TripsController extends Controller
 
 
         //Save trip to the database
-        $data['trip'] = Trip::create([
+        $trip = Trip::create([
             'src_lat' => $src_lat,
             'src_long' => $src_long,
             'dest_lat' => $dest_lat,
@@ -89,21 +89,13 @@ class TripsController extends Controller
             'fare' => (double)$fare
         ]);
 
-        //Initiallize geotools
-        $geotools = new Geotools();
-        $coordA   = new Coordinate([$src_lat, $src_long]);
-        $coordB   = new Coordinate([$dest_lat, $dest_long]);
-        $distance = $geotools->distance()->setFrom($coordA)->setTo($coordB);
-
-        //Get distance in km
-        $km = $distance->in('km')->haversine();
-
-
-        $radius = 25;
+        //$radius = 25;
 
         //$data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
+        //$data['driver'] = CoreAPi::partner()->findInVicinity($src_lat, $src_long, $radius);
         # code...
-        //$data['driver'] = CoreAPi::partner()->findInVicinity($lat, $long, $radius);
+        $data['trip'] = $trip;
+        
 
         return response()->json($data,  200);
     }
@@ -133,6 +125,7 @@ class TripsController extends Controller
         return new Coordinate($coordinates, $ellipsoid);
     }
 
+    //Get the distance between the starting and ending point of the trip request
     public function getDistance($waypoint0, $waypoint1){
         $app_id = config('hereapp.app_id');
         $app_code = config('hereapp.app_code');
@@ -152,6 +145,11 @@ class TripsController extends Controller
         ]);
 
         return $result;
+    }
+
+    //This method finds a nearby driver and routes the trip to them.
+    public function routeTripToDriver(){
+
     }
     
 
