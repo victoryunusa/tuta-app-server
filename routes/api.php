@@ -35,16 +35,16 @@ Route::prefix('v1')->group(function(){
 
     Route::middleware(['auth:drivers'])->group(function () {
 
-        Route::apiResource('drivers', 'DriverController');
-        Route::apiResource('vehiclecategories', 'VehicleCategoryController'); 
-        Route::apiResource('vehicles', 'VehicleController'); 
-        Route::apiResource('trips', 'TripController');
+        // Route::apiResource('drivers', 'DriverController');
+        // Route::apiResource('vehiclecategories', 'VehicleCategoryController'); 
+        // Route::apiResource('vehicles', 'VehicleController'); 
+        // Route::apiResource('trips', 'TripController');
         Route::post('new/vehicle', 'Driver\VehicleController@addVehicle');
     });
 
     Route::middleware(['auth:users'])->group(function () {
         //Booking Route
-        Route::post('trip/book', 'User\TripsController@book');
+        Route::post('trip/book', 'User\TripsController@getPriceEstimates');
         Route::post('trip/request', 'User\TripsController@requestDriver');
 
         //

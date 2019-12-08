@@ -7,15 +7,15 @@ use App\Http\Controllers\Controller;
 
 class TripsController extends Controller
 {
-    public function acceptTrip(){
+    public function acceptTrip($id){
 
     }
 
-    public function cancelTrip(){
+    public function cancelTrip($id){
 
     }
 
-    public function endTrip(){
+    public function endTrip($id){
         
     }
 
