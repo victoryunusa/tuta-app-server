@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\DriverRequestEvent;
 use League\Geotools\Coordinate\Ellipsoid;
 use League\Geotools\Coordinate\Coordinate as Coordinate;
 use League\Geotools\Geotools as Geotools;
@@ -59,6 +60,7 @@ class TripsController extends Controller
         $data['coordinates'] = ['src_lat' => $src_lat, 'src_long' => $src_long, 'dest_lat' => $dest_lat, 'dest_long' => $dest_long];
 
         //$data['driver'] = Driver::with('vehicle')->inRandomOrder()->first();
+
 
         //Calculate the price from distance(km)
         $data['price'] = $this->calculatePrice($distance, $eta);
@@ -148,8 +150,12 @@ class TripsController extends Controller
     }
 
     //This method finds a nearby driver and routes the trip to them.
-    public function routeTripToDriver(){
-
+    public function routeTripToDriver($trip){
+        $driver = Driver::with('vehicle')->inRandomOrder()->first();
+        event(new DriverRequestEvent([$trip,$driver]));
+        if($trip->driver_id == ''){
+            return $this->routeTripToDriver($trip);
+        }
     }
     
 
